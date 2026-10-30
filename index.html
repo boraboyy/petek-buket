@@ -89,12 +89,44 @@
       opacity: 1;
       transform: translateX(-50%) translateY(0);
     }
+
+    #sound-btn {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 4;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 235, 252, 0.22);
+      background: rgba(15, 8, 22, 0.45);
+      color: rgba(255, 240, 255, 0.72);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.2s ease, border-color 0.3s ease, transform 0.2s ease;
+      backdrop-filter: blur(4px);
+    }
+
+    #sound-btn.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #sound-btn:hover {
+      border-color: rgba(255, 235, 252, 0.55);
+      transform: scale(1.06);
+    }
   </style>
 </head>
 <body>
   <canvas id="canvas"></canvas>
   <div id="hint">Adın Petek'se dokun</div>
   <div id="caption">Bora'dan Petek'e</div>
+  <button id="sound-btn" title="Sesi Aç / Kapat" aria-label="Sesi Aç / Kapat">♪</button>
 
   <script>
     (() => {
@@ -102,6 +134,7 @@
       const ctx = canvas.getContext('2d');
       const hintEl = document.getElementById('hint');
       const captionEl = document.getElementById('caption');
+      const soundBtn = document.getElementById('sound-btn');
 
       const params = new URLSearchParams(window.location.search);
       if (params.get('text')) {
@@ -126,6 +159,183 @@
       let flowers = [];
       let buds = [];
       let tendrils = [];
+
+      // ============================================================================
+      // ESTETİK WEB AUDIO SES MOTORU (Harici MP3 gerektirmez, tek dosyada çalışır)
+      // Kristal Arp / Müzik Kutusu (Celesta), Işıltılı Rüzgar Çanları ve Dreamy Pad
+      // ============================================================================
+      let audioCtx = null;
+      let masterGain = null;
+      let reverbNode = null;
+      let isMuted = false;
+      let TouchNoteIdx = 0;
+
+      const HARP_SCALE = [
+        349.23, // F4
+        392.00, // G4
+        440.00, // A4
+        523.25, // C5
+        587.33, // D5
+        659.25, // E5
+        698.46, // F5
+        783.99, // G5
+        880.00, // A5
+        1046.50, // C6
+        1174.66, // D6
+        1318.51  // E6
+      ];
+
+      function initAudio() {
+        if (audioCtx) return;
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+
+        audioCtx = new AudioContextClass();
+        masterGain = audioCtx.createGain();
+        masterGain.gain.value = 0.72;
+
+        reverbNode = audioCtx.createConvolver();
+        const rate = audioCtx.sampleRate;
+        const length = Math.floor(rate * 3.2);
+        const impulse = audioCtx.createBuffer(2, length, rate);
+        for (let ch = 0; ch < 2; ch++) {
+          const data = impulse.getChannelData(ch);
+          for (let i = 0; i < length; i++) {
+            const t = i / length;
+            data[i] = (Math.random() * 2 - 1) * Math.pow(1 - t, 2.6) * 0.45;
+          }
+        }
+        reverbNode.buffer = impulse;
+
+        const wetGain = audioCtx.createGain();
+        wetGain.gain.value = 0.55;
+        const dryGain = audioCtx.createGain();
+        dryGain.gain.value = 0.75;
+
+        masterGain.connect(dryGain);
+        masterGain.connect(reverbNode);
+        reverbNode.connect(wetGain);
+        dryGain.connect(audioCtx.destination);
+        wetGain.connect(audioCtx.destination);
+      }
+
+      function playCelestaNote(freq, delaySec = 0, volume = 0.16, duration = 2.6) {
+        if (!audioCtx || isMuted) return;
+        const now = audioCtx.currentTime + delaySec;
+
+        const osc1 = audioCtx.createOscillator();
+        const osc2 = audioCtx.createOscillator();
+        osc1.type = 'sine';
+        osc2.type = 'triangle';
+        osc1.frequency.setValueAtTime(freq, now);
+        osc2.frequency.setValueAtTime(freq * 2.0, now);
+
+        const g1 = audioCtx.createGain();
+        const g2 = audioCtx.createGain();
+
+        g1.gain.setValueAtTime(0.0001, now);
+        g1.gain.linearRampToValueAtTime(volume, now + 0.018);
+        g1.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+        g2.gain.setValueAtTime(0.0001, now);
+        g2.gain.linearRampToValueAtTime(volume * 0.18, now + 0.012);
+        g2.gain.exponentialRampToValueAtTime(0.0001, now + duration * 0.45);
+
+        osc1.connect(g1);
+        osc2.connect(g2);
+        g1.connect(masterGain);
+        g2.connect(masterGain);
+
+        osc1.start(now);
+        osc2.start(now);
+        osc1.stop(now + duration + 0.05);
+        osc2.stop(now + duration * 0.5);
+      }
+
+      function playSparkleChime(delaySec = 0, baseFreq = 1760) {
+        if (!audioCtx || isMuted) return;
+        for (let i = 0; i < 4; i++) {
+          const f = baseFreq * (1 + i * 0.25 + Math.random() * 0.08);
+          playCelestaNote(f, delaySec + i * 0.065, 0.045, 1.4);
+        }
+      }
+
+      function playBloomSymphony() {
+        if (!audioCtx) return;
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
+        playSparkleChime(0, 1318.5);
+
+        const padNotes = [174.61, 220.00, 261.63, 329.63, 392.00];
+        const now = audioCtx.currentTime;
+        padNotes.forEach((freq, idx) => {
+          const osc = audioCtx.createOscillator();
+          const filter = audioCtx.createBiquadFilter();
+          const gain = audioCtx.createGain();
+
+          osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
+          osc.frequency.setValueAtTime(freq, now);
+          osc.detune.setValueAtTime((idx - 2) * 4, now);
+
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(650, now);
+          filter.frequency.linearRampToValueAtTime(1400, now + 3.5);
+          filter.frequency.linearRampToValueAtTime(750, now + 9.0);
+
+          gain.gain.setValueAtTime(0.0001, now);
+          gain.gain.linearRampToValueAtTime(0.038, now + 2.2);
+          gain.gain.linearRampToValueAtTime(0.028, now + 5.5);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 11.5);
+
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(masterGain);
+
+          osc.start(now);
+          osc.stop(now + 11.6);
+        });
+
+        const melodySchedule = [
+          { t: 0.15, f: 349.23, v: 0.12 },
+          { t: 0.42, f: 440.00, v: 0.12 },
+          { t: 0.72, f: 523.25, v: 0.13 },
+          { t: 1.02, f: 659.25, v: 0.14 },
+
+          { t: 1.24, f: 587.33, v: 0.15 },
+          { t: 1.32, f: 698.46, v: 0.15 },
+          { t: 1.42, f: 880.00, v: 0.16 },
+          { t: 1.52, f: 783.99, v: 0.15 },
+          { t: 1.62, f: 1046.50, v: 0.18 },
+          { t: 1.75, f: 880.00, v: 0.15 },
+          { t: 1.88, f: 1174.66, v: 0.16 },
+          { t: 2.08, f: 1318.51, v: 0.17 },
+
+          { t: 2.55, f: 523.25, v: 0.13 },
+          { t: 2.68, f: 659.25, v: 0.14 },
+          { t: 2.82, f: 783.99, v: 0.15 },
+          { t: 2.96, f: 880.00, v: 0.15 },
+          { t: 3.12, f: 1046.50, v: 0.16 },
+          { t: 3.30, f: 1318.51, v: 0.18 }
+        ];
+
+        melodySchedule.forEach((n) => {
+          playCelestaNote(n.f, n.t, n.v, 3.2);
+        });
+
+        playSparkleChime(2.65, 1567.98);
+      }
+
+      soundBtn.addEventListener('pointerdown', (e) => {
+        e.stopPropagation();
+        isMuted = !isMuted;
+        if (masterGain && audioCtx) {
+          masterGain.gain.setTargetAtTime(isMuted ? 0 : 0.72, audioCtx.currentTime, 0.08);
+        }
+        soundBtn.textContent = isMuted ? '✕' : '♪';
+        soundBtn.style.opacity = isMuted ? '0.45' : '1';
+      });
 
       function clamp01(v) {
         return v < 0 ? 0 : (v > 1 ? 1 : v);
@@ -814,14 +1024,25 @@
       }
 
       function handleTrigger(clientX, clientY) {
+        initAudio();
         createClickBurst(clientX, clientY);
         if (!started) {
           started = true;
           startTime = performance.now();
           hintEl.classList.add('hidden');
+          soundBtn.classList.add('visible');
+          playBloomSymphony();
           setTimeout(() => {
             captionEl.classList.add('visible');
           }, 2600);
+        } else {
+          if (audioCtx && audioCtx.state === 'suspended') {
+            audioCtx.resume();
+          }
+          const note = HARP_SCALE[TouchNoteIdx % HARP_SCALE.length];
+          TouchNoteIdx++;
+          playCelestaNote(note, 0, 0.14, 2.4);
+          playCelestaNote(note * 1.5, 0.08, 0.07, 1.8);
         }
       }
 
