@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Bora'dan Petek'e</title>
+  <title>Petek İçin Hazırlanıyor...</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -21,10 +21,10 @@
     html, body {
       width: 100%;
       height: 100%;
-      background-color: #000000;
+      background-color: #050208;
       overflow: hidden;
-      font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-      cursor: pointer;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      color: #f9f2fa;
       touch-action: manipulation;
     }
 
@@ -38,204 +38,269 @@
       z-index: 1;
     }
 
-    #hint {
+    .top-badge {
       position: fixed;
-      top: 50%;
+      top: clamp(22px, 4.5vh, 42px);
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translateX(-50%);
       z-index: 3;
-      color: rgba(255, 248, 255, 0.72);
-      font-size: clamp(1.25rem, 4.2vw, 1.65rem);
-      font-style: italic;
-      font-weight: 300;
-      letter-spacing: 0.12em;
-      pointer-events: none;
-      transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1);
-      text-align: center;
-      white-space: nowrap;
-      text-shadow: 0 0 18px rgba(245, 200, 235, 0.35);
-      animation: pulseHint 2.6s ease-in-out infinite;
-    }
-
-    #hint.hidden {
-      opacity: 0 !important;
-      animation: none;
-    }
-
-    @keyframes pulseHint {
-      0%, 100% { opacity: 0.32; transform: translate(-50%, -50%) scale(0.98); }
-      50% { opacity: 0.88; transform: translate(-50%, -50%) scale(1.02); }
-    }
-
-    #caption {
-      position: fixed;
-      bottom: clamp(22px, 5.2vh, 52px);
-      left: 50%;
-      transform: translateX(-50%) translateY(10px);
-      z-index: 2;
-      color: rgba(252, 246, 255, 0.95);
-      font-size: clamp(1.95rem, 6vw, 2.85rem);
-      font-weight: 300;
-      font-style: italic;
-      letter-spacing: 0.04em;
-      text-align: center;
-      white-space: nowrap;
-      pointer-events: none;
-      opacity: 0;
-      text-shadow: 0 0 24px rgba(245, 205, 235, 0.38), 0 2px 12px rgba(0, 0, 0, 0.95);
-      transition: opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1),
-                  transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    #caption.visible {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    #sound-btn {
-      position: fixed;
-      top: 18px;
-      right: 18px;
-      z-index: 4;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: 1px solid rgba(255, 235, 252, 0.22);
-      background: rgba(15, 8, 22, 0.45);
-      color: rgba(255, 240, 255, 0.72);
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      font-size: 15px;
-      opacity: 0;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: rgba(28, 14, 36, 0.55);
+      border: 1px solid rgba(245, 200, 235, 0.22);
+      backdrop-filter: blur(8px);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(248, 222, 242, 0.85);
       pointer-events: none;
-      transition: opacity 1.2s ease, border-color 0.3s ease, transform 0.2s ease;
-      backdrop-filter: blur(4px);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
     }
 
-    #sound-btn.visible {
-      opacity: 1;
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #9ef08a;
+      box-shadow: 0 0 10px #9ef08a;
+      animation: blinkDot 2s ease-in-out infinite;
+    }
+
+    @keyframes blinkDot {
+      0%, 100% { opacity: 0.4; transform: scale(0.88); }
+      50% { opacity: 1; transform: scale(1.15); }
+    }
+
+    .ui-container {
+      position: fixed;
+      bottom: clamp(22px, 4.8vh, 48px);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      width: min(92vw, 460px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .main-title {
+      font-size: clamp(1.65rem, 5.2vw, 2.3rem);
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.25;
+      color: rgba(255, 248, 255, 0.96);
+      text-shadow: 0 0 24px rgba(245, 195, 235, 0.35), 0 2px 10px rgba(0, 0, 0, 0.9);
+      margin-bottom: 10px;
+    }
+
+    .sub-ticker {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(0.82rem, 2.8vw, 0.92rem);
+      font-weight: 300;
+      color: rgba(235, 208, 232, 0.78);
+      min-height: 1.5em;
+      letter-spacing: 0.02em;
+      transition: opacity 0.45s ease, transform 0.45s ease;
+      margin-bottom: 14px;
+    }
+
+    .sub-ticker.fade-out {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+
+    .progress-wrap {
+      width: min(74vw, 280px);
+      height: 3px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 35%;
+      background: linear-gradient(90deg, #95e686, #f5b2df, #fff2fa);
+      border-radius: 999px;
+      box-shadow: 0 0 12px rgba(245, 178, 223, 0.8);
+      transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      position: relative;
+    }
+
+    .water-btn {
       pointer-events: auto;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(248, 205, 238, 0.32);
+      background: linear-gradient(135deg, rgba(45, 20, 56, 0.65), rgba(22, 10, 30, 0.78));
+      color: rgba(255, 245, 255, 0.92);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.55), 0 0 18px rgba(235, 165, 220, 0.14);
+      transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+      margin-bottom: 14px;
     }
 
-    #sound-btn:hover {
-      border-color: rgba(255, 235, 252, 0.55);
-      transform: scale(1.06);
+    .water-btn:hover {
+      border-color: rgba(255, 220, 248, 0.65);
+      box-shadow: 0 4px 24px rgba(235, 165, 220, 0.28);
+      transform: translateY(-1px);
+    }
+
+    .water-btn:active {
+      transform: scale(0.95);
+    }
+
+    .signature {
+      font-size: clamp(1.1rem, 3.6vw, 1.35rem);
+      font-style: italic;
+      font-weight: 300;
+      color: rgba(245, 225, 245, 0.62);
+      letter-spacing: 0.06em;
+    }
+
+    .floating-toast {
+      position: fixed;
+      z-index: 5;
+      pointer-events: none;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.78rem;
+      color: rgba(255, 245, 255, 0.92);
+      background: rgba(38, 18, 48, 0.72);
+      border: 1px solid rgba(255, 215, 245, 0.28);
+      padding: 5px 12px;
+      border-radius: 999px;
+      backdrop-filter: blur(6px);
+      white-space: nowrap;
+      animation: floatUpFade 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes floatUpFade {
+      0% { opacity: 0; transform: translate(-50%, 0) scale(0.9); }
+      20% { opacity: 1; transform: translate(-50%, -12px) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -44px) scale(0.96); }
     }
   </style>
 </head>
 <body>
   <canvas id="canvas"></canvas>
-  <div id="hint">Adın Petek'se dokun</div>
-  <div id="caption">Bora'dan Petek'e</div>
-  <button id="sound-btn" title="Sesi Aç / Kapat" aria-label="Sesi Aç / Kapat">♪</button>
+
+  <div class="top-badge">
+    <span class="status-dot"></span>
+    <span>Özel Sera Bakımda</span>
+  </div>
+
+  <div class="ui-container">
+    <h1 class="main-title" id="main-title">Petek için en taze çiçekler tedarik ediliyor...</h1>
+    <div class="sub-ticker" id="sub-ticker">🌱 Toprak sevgiyle havalandırılıyor...</div>
+
+    <div class="progress-wrap">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <button class="water-btn" id="water-btn" type="button">
+      <span>💧</span>
+      <span id="water-btn-text">Filize Can Suyu Ver</span>
+    </button>
+
+    <div class="signature">Bora'dan Petek'e</div>
+  </div>
 
   <script>
     (() => {
       const canvas = document.getElementById('canvas');
       const ctx = canvas.getContext('2d');
-      const hintEl = document.getElementById('hint');
-      const captionEl = document.getElementById('caption');
-      const soundBtn = document.getElementById('sound-btn');
-
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('text')) {
-        captionEl.textContent = params.get('text');
-      }
-      if (params.get('hint')) {
-        hintEl.textContent = params.get('hint');
-      }
+      const subTicker = document.getElementById('sub-ticker');
+      const progressBar = document.getElementById('progress-bar');
+      const waterBtn = document.getElementById('water-btn');
+      const waterBtnText = document.getElementById('water-btn-text');
 
       let width = window.innerWidth;
       let height = window.innerHeight;
       let dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-      let started = false;
-      let startTime = 0;
-      let clickBursts = [];
-      let ambientPollen = [];
-
-      let mainStems = [];
-      let pedicels = [];
-      let leaves = [];
-      let flowers = [];
-      let buds = [];
-      let tendrils = [];
-
-      // ============================================================================
-      // MOBİL (iOS SAFARI & ANDROID CHROME) İLK DOKUNUŞTA ANINDA ÇALIŞAN SES MOTORU
-      // ============================================================================
-      let audioCtx = null;
-      let masterGain = null;
-      let isMuted = false;
-      let symphonyPlayed = false;
-      let TouchNoteIdx = 0;
-
-      const HARP_SCALE = [
-        349.23, // F4
-        392.00, // G4
-        440.00, // A4
-        523.25, // C5
-        587.33, // D5
-        659.25, // E5
-        698.46, // F5
-        783.99, // G5
-        880.00, // A5
-        1046.50, // C6
-        1174.66, // D6
-        1318.51  // E6
+      const STATUS_MESSAGES = [
+        '🌱 Toprak sevgiyle havalandırılıyor...',
+        '🌷 Seralardan en nadide tohumlar seçiliyor...',
+        '💧 Yapraklara sabah çiyi damlatılıyor...',
+        '✨ Taç yaprakların yıldız tozu parıltısı ayarlanıyor...',
+        '🎀 Buket kurdelesi Bora tarafından özenle bağlanıyor...',
+        '🌙 Gece serasında sıcaklık sabitleniyor...',
+        '🌸 Çok yakında sadece Petek için yeniden çiçek açacak...'
       ];
 
-      function ensureAudioUnlocked() {
+      const WATER_REACTIONS = [
+        '💧 +1 Can suyu eklendi, filiz keyiflendi!',
+        '🌱 Kökler biraz daha güçlendi...',
+        '✨ Yapraklar parıldamaya başladı!',
+        '🌸 Bora şu an harıl harıl yeni sürprizi hazırlıyor...',
+        '💖 Sevgi dozu artırıldı!',
+        '🌷 Gonca açmak için sabırsızlanıyor...'
+      ];
+
+      let msgIndex = 0;
+      let waterCount = 0;
+      let growthBonus = 0;
+      let targetGrowthBonus = 0;
+      let domeGlowPulse = 0;
+
+      setInterval(() => {
+        subTicker.classList.add('fade-out');
+        setTimeout(() => {
+          msgIndex = (msgIndex + 1) % STATUS_MESSAGES.length;
+          subTicker.textContent = STATUS_MESSAGES[msgIndex];
+          subTicker.classList.remove('fade-out');
+        }, 450);
+      }, 3800);
+
+      let audioCtx = null;
+      let masterGain = null;
+      const SCALE_NOTES = [523.25, 587.33, 659.25, 698.46, 783.99, 880.00, 1046.50, 1174.66];
+
+      function ensureAudio() {
         const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContextClass) return null;
+        if (!AudioContextClass) return Promise.resolve();
 
         if (!audioCtx) {
           audioCtx = new AudioContextClass();
           masterGain = audioCtx.createGain();
-          masterGain.gain.value = 0.78;
+          masterGain.gain.value = 0.72;
 
-          const dryGain = audioCtx.createGain();
-          dryGain.gain.value = 0.80;
+          const delay = audioCtx.createDelay(1.0);
+          delay.delayTime.value = 0.22;
+          const fb = audioCtx.createGain();
+          fb.gain.value = 0.34;
+          const wet = audioCtx.createGain();
+          wet.gain.value = 0.42;
 
-          const delay1 = audioCtx.createDelay(1.0);
-          delay1.delayTime.value = 0.19;
-          const fb1 = audioCtx.createGain();
-          fb1.gain.value = 0.36;
-
-          const delay2 = audioCtx.createDelay(1.0);
-          delay2.delayTime.value = 0.31;
-          const fb2 = audioCtx.createGain();
-          fb2.gain.value = 0.32;
-
-          const wetFilter = audioCtx.createBiquadFilter();
-          wetFilter.type = 'lowpass';
-          wetFilter.frequency.value = 2400;
-
-          const wetGain = audioCtx.createGain();
-          wetGain.gain.value = 0.48;
-
-          masterGain.connect(dryGain);
-          dryGain.connect(audioCtx.destination);
-
-          masterGain.connect(delay1);
-          delay1.connect(fb1);
-          fb1.connect(delay1);
-
-          masterGain.connect(delay2);
-          delay2.connect(fb2);
-          fb2.connect(delay2);
-
-          delay1.connect(wetFilter);
-          delay2.connect(wetFilter);
-          wetFilter.connect(wetGain);
-          wetGain.connect(audioCtx.destination);
+          masterGain.connect(audioCtx.destination);
+          masterGain.connect(delay);
+          delay.connect(fb);
+          fb.connect(delay);
+          delay.connect(wet);
+          wet.connect(audioCtx.destination);
         }
 
         try {
-          const silentBuf = audioCtx.createBuffer(1, 1, 22050);
+          const buf = audioCtx.createBuffer(1, 1, 22050);
           const src = audioCtx.createBufferSource();
-          src.buffer = silentBuf;
+          src.buffer = buf;
           src.connect(audioCtx.destination);
           src.start(0);
         } catch (_) {}
@@ -246,778 +311,57 @@
         return Promise.resolve();
       }
 
-      function playCelestaNote(freq, delaySec = 0, volume = 0.16, duration = 2.6) {
-        if (!audioCtx || isMuted) return;
-        const now = audioCtx.currentTime + Math.max(0.005, delaySec);
+      function playWaterDropSound(noteIdx) {
+        if (!audioCtx) return;
+        const now = audioCtx.currentTime + 0.01;
 
-        const osc1 = audioCtx.createOscillator();
-        const osc2 = audioCtx.createOscillator();
-        osc1.type = 'sine';
-        osc2.type = 'triangle';
-        osc1.frequency.setValueAtTime(freq, now);
-        osc2.frequency.setValueAtTime(freq * 2.0, now);
+        const dropOsc = audioCtx.createOscillator();
+        const dropGain = audioCtx.createGain();
+        dropOsc.type = 'sine';
+        dropOsc.frequency.setValueAtTime(380, now);
+        dropOsc.frequency.exponentialRampToValueAtTime(980, now + 0.09);
 
-        const g1 = audioCtx.createGain();
-        const g2 = audioCtx.createGain();
+        dropGain.gain.setValueAtTime(0.001, now);
+        dropGain.gain.linearRampToValueAtTime(0.16, now + 0.015);
+        dropGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.14);
 
-        g1.gain.setValueAtTime(0.0001, now);
-        g1.gain.linearRampToValueAtTime(volume, now + 0.018);
-        g1.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+        dropOsc.connect(dropGain);
+        dropGain.connect(masterGain);
+        dropOsc.start(now);
+        dropOsc.stop(now + 0.16);
 
-        g2.gain.setValueAtTime(0.0001, now);
-        g2.gain.linearRampToValueAtTime(volume * 0.18, now + 0.012);
-        g2.gain.exponentialRampToValueAtTime(0.0001, now + duration * 0.45);
+        const freq = SCALE_NOTES[noteIdx % SCALE_NOTES.length];
+        const chimeOsc = audioCtx.createOscillator();
+        const chimeGain = audioCtx.createGain();
+        chimeOsc.type = 'sine';
+        chimeOsc.frequency.setValueAtTime(freq, now + 0.06);
 
-        osc1.connect(g1);
-        osc2.connect(g2);
-        g1.connect(masterGain);
-        g2.connect(masterGain);
+        chimeGain.gain.setValueAtTime(0.0001, now + 0.06);
+        chimeGain.gain.linearRampToValueAtTime(0.14, now + 0.08);
+        chimeGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.9);
 
-        osc1.start(now);
-        osc2.start(now);
-        osc1.stop(now + duration + 0.05);
-        osc2.stop(now + duration * 0.5);
+        chimeOsc.connect(chimeGain);
+        chimeGain.connect(masterGain);
+        chimeOsc.start(now + 0.06);
+        chimeOsc.stop(now + 2.0);
       }
 
-      function playSparkleChime(delaySec = 0, baseFreq = 1760) {
-        if (!audioCtx || isMuted) return;
-        for (let i = 0; i < 4; i++) {
-          const f = baseFreq * (1 + i * 0.25 + Math.random() * 0.08);
-          playCelestaNote(f, delaySec + i * 0.065, 0.05, 1.5);
-        }
-      }
-
-      function playBloomSymphony() {
-        if (!audioCtx || symphonyPlayed) return;
-        symphonyPlayed = true;
-
-        playSparkleChime(0.01, 1318.5);
-
-        const padNotes = [174.61, 220.00, 261.63, 329.63, 392.00];
-        const now = audioCtx.currentTime + 0.02;
-        padNotes.forEach((freq, idx) => {
-          const osc = audioCtx.createOscillator();
-          const filter = audioCtx.createBiquadFilter();
-          const gain = audioCtx.createGain();
-
-          osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
-          osc.frequency.setValueAtTime(freq, now);
-          osc.detune.setValueAtTime((idx - 2) * 4, now);
-
-          filter.type = 'lowpass';
-          filter.frequency.setValueAtTime(650, now);
-          filter.frequency.linearRampToValueAtTime(1400, now + 3.5);
-          filter.frequency.linearRampToValueAtTime(750, now + 9.0);
-
-          gain.gain.setValueAtTime(0.0001, now);
-          gain.gain.linearRampToValueAtTime(0.042, now + 2.2);
-          gain.gain.linearRampToValueAtTime(0.030, now + 5.5);
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + 11.5);
-
-          osc.connect(filter);
-          filter.connect(gain);
-          gain.connect(masterGain);
-
-          osc.start(now);
-          osc.stop(now + 11.6);
-        });
-
-        const melodySchedule = [
-          { t: 0.05, f: 349.23, v: 0.14 },
-          { t: 0.35, f: 440.00, v: 0.14 },
-          { t: 0.65, f: 523.25, v: 0.15 },
-          { t: 0.95, f: 659.25, v: 0.15 },
-
-          { t: 1.22, f: 587.33, v: 0.16 },
-          { t: 1.32, f: 698.46, v: 0.16 },
-          { t: 1.42, f: 880.00, v: 0.17 },
-          { t: 1.52, f: 783.99, v: 0.16 },
-          { t: 1.62, f: 1046.50, v: 0.19 },
-          { t: 1.75, f: 880.00, v: 0.16 },
-          { t: 1.88, f: 1174.66, v: 0.17 },
-          { t: 2.08, f: 1318.51, v: 0.18 },
-
-          { t: 2.55, f: 523.25, v: 0.14 },
-          { t: 2.68, f: 659.25, v: 0.15 },
-          { t: 2.82, f: 783.99, v: 0.16 },
-          { t: 2.96, f: 880.00, v: 0.16 },
-          { t: 3.12, f: 1046.50, v: 0.17 },
-          { t: 3.30, f: 1318.51, v: 0.19 }
-        ];
-
-        melodySchedule.forEach((n) => {
-          playCelestaNote(n.f, n.t, n.v, 3.2);
-        });
-
-        playSparkleChime(2.65, 1567.98);
-      }
-
-      function toggleMute(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        isMuted = !isMuted;
-        if (masterGain && audioCtx) {
-          masterGain.gain.setTargetAtTime(isMuted ? 0 : 0.78, audioCtx.currentTime, 0.08);
-        }
-        soundBtn.textContent = isMuted ? '✕' : '♪';
-        soundBtn.style.opacity = isMuted ? '0.45' : '1';
-      }
-
-      soundBtn.addEventListener('touchstart', toggleMute, { passive: false });
-      soundBtn.addEventListener('click', toggleMute);
-
-      function clamp01(v) {
-        return v < 0 ? 0 : (v > 1 ? 1 : v);
-      }
-
-      function easeOutCubic(t) {
-        const u = clamp01(t);
-        return 1 - Math.pow(1 - u, 3);
-      }
-
-      function hash(n) {
-        const x = Math.sin(n * 127.1 + 311.7) * 43758.5453123;
-        return x - Math.floor(x);
-      }
-
-      function cubicBezier(p0, p1, p2, p3, t) {
-        const u = 1 - t;
-        return {
-          x: u * u * u * p0.x + 3 * u * u * t * p1.x + 3 * u * t * t * p2.x + t * t * t * p3.x,
-          y: u * u * u * p0.y + 3 * u * u * t * p1.y + 3 * u * t * t * p2.y + t * t * t * p3.y
-        };
-      }
-
-      function sampleCurve(p0, p1, p2, p3, steps) {
-        const pts = [];
-        for (let i = 0; i <= steps; i++) {
-          const t = i / steps;
-          pts.push({ ...cubicBezier(p0, p1, p2, p3, t), t });
-        }
-        return pts;
-      }
-
-      function rotate3D(x, y, z, rx, ry, rz) {
-        let x1 = x * Math.cos(rz) - y * Math.sin(rz);
-        let y1 = x * Math.sin(rz) + y * Math.cos(rz);
-        let z1 = z;
-        let y2 = y1 * Math.cos(rx) - z1 * Math.sin(rx);
-        let z2 = y1 * Math.sin(rx) + z1 * Math.cos(rx);
-        let x2 = x1;
-        let x3 = x2 * Math.cos(ry) + z2 * Math.sin(ry);
-        let z3 = -x2 * Math.sin(ry) + z2 * Math.cos(ry);
-        let y3 = y2;
-        return { x: x3, y: y3, z: z3 };
-      }
-
-      const PALETTES = {
-        rose: {
-          throat: '128, 205, 112',
-          inner: '224, 122, 186',
-          mid: '238, 172, 224',
-          outer: '250, 235, 252',
-          midrib: '228, 92, 172',
-          freckle: '158, 26, 96'
-        },
-        lilac: {
-          throat: '132, 208, 118',
-          inner: '198, 132, 228',
-          mid: '225, 182, 245',
-          outer: '248, 238, 255',
-          midrib: '188, 98, 218',
-          freckle: '132, 38, 158'
-        },
-        blush: {
-          throat: '138, 212, 122',
-          inner: '235, 152, 198',
-          mid: '248, 202, 232',
-          outer: '254, 246, 252',
-          midrib: '232, 115, 178',
-          freckle: '168, 38, 104'
-        }
-      };
-
-      function buildLilyFlower(cfg) {
-        const {
-          cx, cy, radius,
-          rx, ry, rz,
-          delay,
-          seedBase = 1,
-          paletteName = 'rose'
-        } = cfg;
-
-        const palette = PALETTES[paletteName] || PALETTES.rose;
-        const petals = [];
-
-        for (let p = 0; p < 6; p++) {
-          const isInner = p % 2 === 0;
-          const azimuth = (p / 6) * Math.PI * 2 - Math.PI / 2;
-
-          function evalPt(u, v, openFactor = 1.0) {
-            const widthEnv = Math.sin(Math.pow(u, 0.72) * Math.PI) * Math.pow(1 - u * 0.14, 0.55);
-            const maxHalfW = radius * (isInner ? 0.31 : 0.25);
-
-            const ruffle = Math.sin(u * Math.PI * 4.5 + p * 1.7) * Math.pow(Math.abs(v), 1.6) * radius * 0.022 * openFactor;
-
-            const spread = 0.25 + 0.75 * openFactor;
-            const rDist = radius * (0.92 * u + 0.08 * u * u) * spread;
-
-            const trumpetZ = radius * (
-              0.22 * Math.sin(u * Math.PI * 0.78) * (1.3 - 0.3 * spread) -
-              0.32 * Math.pow(Math.max(0, u - 0.58) / 0.42, 2.0) * spread
-            );
-
-            const archAcross = Math.sin(Math.abs(v) * Math.PI * 0.65) * radius * 0.055 * Math.sin(u * Math.PI);
-
-            const w = v * widthEnv * maxHalfW;
-            const lx = Math.cos(azimuth) * rDist - Math.sin(azimuth) * w;
-            const ly = Math.sin(azimuth) * rDist + Math.cos(azimuth) * w;
-            const lz = trumpetZ + archAcross + ruffle + (isInner ? 8 : -8);
-
-            const rot = rotate3D(lx, ly, lz, rx, ry, rz);
-            return { x: cx + rot.x, y: cy + rot.y, z: rot.z };
-          }
-
-          const freckles = [];
-          for (let f = 0; f < 28; f++) {
-            const r1 = hash(seedBase * 100 + p * 37 + f * 13);
-            const r2 = hash(seedBase * 200 + p * 59 + f * 29);
-            freckles.push({
-              u: 0.16 + r1 * 0.46,
-              v: (r2 - 0.5) * 1.28,
-              size: (1.35 + (f % 3) * 0.4) * (radius / 115)
-            });
-          }
-
-          const sparkles = [];
-          for (let s = 0; s < 115; s++) {
-            const r1 = hash(seedBase * 300 + p * 73 + s * 19);
-            const r2 = hash(seedBase * 400 + p * 97 + s * 41);
-            const r3 = hash(seedBase * 500 + p * 113 + s * 67);
-            const su = Math.pow(r1, 0.82);
-            const sv = r3 < 0.38
-              ? (r2 < 0.5 ? -1 : 1) * (0.80 + (r2 * 2 % 0.20))
-              : (r2 - 0.5) * 1.90;
-            sparkles.push({
-              u: su,
-              v: sv,
-              jx: (r3 - 0.5) * (su > 0.72 ? 3.4 : 1.2),
-              jy: (r1 - 0.5) * (su > 0.72 ? 3.4 : 1.2),
-              size: (0.8 + (s % 3) * 0.42) * (radius / 115),
-              isSquare: s % 8 === 0,
-              phase: r2 * Math.PI * 2,
-              delayOffset: su * 0.55 + r3 * 0.2
-            });
-          }
-
-          const mid = evalPt(0.52, 0, 1.0);
-          petals.push({
-            p,
-            isInner,
-            evalPt,
-            freckles,
-            sparkles,
-            zOrder: mid.z + (isInner ? 100 : 0)
-          });
-        }
-
-        petals.sort((a, b) => a.zOrder - b.zOrder);
-
-        return {
-          cx, cy, radius,
-          rx, ry, rz,
-          delay,
-          palette,
-          petals
-        };
-      }
-
-      function drawLilyFlower(flower, elapsed, swayX, swayY) {
-        const localT = (elapsed - flower.delay) / 1.95;
-        if (localT <= 0) return;
-
-        const openProg = easeOutCubic(localT);
-        const fadeAlpha = clamp01(localT * 1.8);
-        const uReach = easeOutCubic(clamp01(localT * 1.32));
-        const pal = flower.palette;
-
-        ctx.save();
-        ctx.translate(swayX, swayY);
-
-        const uSteps = 30;
-
-        flower.petals.forEach((petal, idx) => {
-          const depthShade = (0.68 + 0.32 * (idx / 5)) * fadeAlpha;
-          const pOpen = easeOutCubic(clamp01(localT * 1.08 - (petal.isInner ? 0.06 : 0)));
-          if (pOpen <= 0.02) return;
-
-          const leftPts = [];
-          const rightPts = [];
-          const midPts = [];
-
-          for (let i = 0; i <= uSteps; i++) {
-            const u = (i / uSteps) * uReach;
-            leftPts.push(petal.evalPt(u, -1, pOpen));
-            rightPts.push(petal.evalPt(u, 1, pOpen));
-            midPts.push(petal.evalPt(u, 0, pOpen));
-          }
-
-          ctx.beginPath();
-          ctx.moveTo(leftPts[0].x, leftPts[0].y);
-          for (let i = 1; i <= uSteps; i++) ctx.lineTo(leftPts[i].x, leftPts[i].y);
-          for (let i = uSteps; i >= 0; i--) ctx.lineTo(rightPts[i].x, rightPts[i].y);
-          ctx.closePath();
-
-          ctx.fillStyle = `rgba(9, 4, 13, ${0.91 * fadeAlpha})`;
-          ctx.fill();
-
-          const basePt = midPts[0];
-          const tipPt = midPts[midPts.length - 1];
-          const grad = ctx.createLinearGradient(basePt.x, basePt.y, tipPt.x, tipPt.y);
-          grad.addColorStop(0, `rgba(${pal.throat}, ${0.74 * depthShade})`);
-          grad.addColorStop(0.16, `rgba(${pal.inner}, ${0.64 * depthShade})`);
-          grad.addColorStop(0.55, `rgba(${pal.mid}, ${0.58 * depthShade})`);
-          grad.addColorStop(0.86, `rgba(${pal.outer}, ${0.74 * depthShade})`);
-          grad.addColorStop(1, `rgba(255, 252, 255, ${0.94 * depthShade})`);
-          ctx.fillStyle = grad;
-          ctx.fill();
-
-          const veinVs = [-0.78, -0.56, -0.34, -0.16, 0.16, 0.34, 0.56, 0.78];
-          veinVs.forEach((vv, vIdx) => {
-            ctx.beginPath();
-            for (let i = 0; i <= uSteps; i += 2) {
-              const u = (i / uSteps) * uReach;
-              const vp = petal.evalPt(u, vv, pOpen);
-              if (i === 0) ctx.moveTo(vp.x, vp.y);
-              else ctx.lineTo(vp.x, vp.y);
-            }
-            ctx.strokeStyle = Math.abs(vv) > 0.5
-              ? `rgba(255, 248, 255, ${0.32 * depthShade})`
-              : `rgba(245, 205, 238, ${0.24 * depthShade})`;
-            ctx.lineWidth = vIdx % 2 === 0 ? 0.8 : 0.55;
-            ctx.stroke();
-          });
-
-          ctx.beginPath();
-          const midStop = Math.floor(uSteps * 0.85);
-          for (let i = 0; i <= midStop; i++) {
-            if (i === 0) ctx.moveTo(midPts[i].x, midPts[i].y);
-            else ctx.lineTo(midPts[i].x, midPts[i].y);
-          }
-          ctx.strokeStyle = `rgba(${pal.midrib}, ${0.84 * depthShade})`;
-          ctx.lineWidth = 1.9 * (flower.radius / 115);
-          ctx.stroke();
-
-          for (let sidePts of [leftPts, rightPts]) {
-            ctx.beginPath();
-            const startIdx = Math.floor(uSteps * 0.12);
-            for (let i = startIdx; i <= uSteps; i++) {
-              if (i === startIdx) ctx.moveTo(sidePts[i].x, sidePts[i].y);
-              else ctx.lineTo(sidePts[i].x, sidePts[i].y);
-            }
-            ctx.strokeStyle = `rgba(255, 252, 255, ${(petal.isInner ? 0.95 : 0.82) * depthShade})`;
-            ctx.lineWidth = (petal.isInner ? 1.8 : 1.35) * Math.max(0.75, flower.radius / 115);
-            ctx.stroke();
-          }
-
-          if (localT > 0.3) {
-            const fAlpha = clamp01((localT - 0.3) * 1.6) * depthShade;
-            petal.freckles.forEach((fr) => {
-              if (fr.u > uReach) return;
-              const fp = petal.evalPt(fr.u, fr.v, pOpen);
-              ctx.fillStyle = `rgba(${pal.freckle}, ${0.88 * fAlpha})`;
-              ctx.beginPath();
-              ctx.arc(fp.x, fp.y, fr.size, 0, Math.PI * 2);
-              ctx.fill();
-
-              ctx.fillStyle = `rgba(255, 200, 235, ${0.52 * fAlpha})`;
-              ctx.beginPath();
-              ctx.arc(fp.x, fp.y, fr.size * 0.45, 0, Math.PI * 2);
-              ctx.fill();
-            });
-          }
-
-          petal.sparkles.forEach((sp) => {
-            const spT = localT - sp.delayOffset * 0.45;
-            if (spT <= 0 || sp.u > uReach) return;
-            const twinkle = 0.55 + 0.45 * Math.sin(elapsed * 3.1 + sp.phase);
-            const spAlpha = clamp01(spT * 1.8) * twinkle * depthShade;
-            const pt = petal.evalPt(sp.u, sp.v, pOpen);
-            const px = pt.x + sp.jx;
-            const py = pt.y + sp.jy;
-
-            if (sp.isSquare) {
-              const s = sp.size * 2.1;
-              ctx.strokeStyle = `rgba(252, 235, 255, ${0.78 * spAlpha})`;
-              ctx.lineWidth = 0.75;
-              ctx.strokeRect(px - s / 2, py - s / 2, s, s);
-            } else {
-              ctx.fillStyle = `rgba(255, 250, 255, ${0.85 * spAlpha})`;
-              ctx.beginPath();
-              ctx.arc(px, py, sp.size, 0, Math.PI * 2);
-              ctx.fill();
-            }
-          });
-        });
-
-        const stProg = easeOutCubic((localT - 0.35) * 1.35);
-        if (stProg > 0) {
-          const r = flower.radius;
-          for (let s = 0; s < 6; s++) {
-            const sAz = (s / 6) * Math.PI * 2 - Math.PI / 2 + 0.28;
-            const sLen = r * (0.68 + (s % 2) * 0.06);
-            const steps = 18;
-            const maxStep = Math.max(1, Math.floor(stProg * steps));
-
-            ctx.beginPath();
-            let tip = null;
-            for (let k = 0; k <= maxStep; k++) {
-              const t = (k / steps) * stProg;
-              const rad = Math.pow(t, 1.25) * sLen * 0.52 * openProg;
-              const zOut = t * sLen * 0.88;
-              const lx = Math.cos(sAz) * rad * 0.85;
-              const ly = Math.sin(sAz) * rad * 0.65 - Math.pow(t, 1.45) * r * 0.28;
-              const lz = zOut;
-              const rot = rotate3D(lx, ly, lz, flower.rx, flower.ry, flower.rz);
-              const px = flower.cx + rot.x;
-              const py = flower.cy + rot.y;
-              if (k === 0) ctx.moveTo(px, py);
-              else ctx.lineTo(px, py);
-              tip = { x: px, y: py };
-            }
-            ctx.strokeStyle = `rgba(218, 248, 205, ${0.94 * fadeAlpha})`;
-            ctx.lineWidth = 1.45 * Math.max(0.75, r / 115);
-            ctx.lineCap = 'round';
-            ctx.stroke();
-
-            if (tip && stProg > 0.55) {
-              const aAlpha = clamp01((stProg - 0.55) * 2.2) * fadeAlpha;
-              const antherAng = sAz * 0.4 + 0.85;
-              const aHalf = r * 0.082;
-
-              const pGrad = ctx.createRadialGradient(tip.x, tip.y, 0, tip.x, tip.y, aHalf * 1.8);
-              pGrad.addColorStop(0, `rgba(255, 185, 65, ${0.48 * aAlpha})`);
-              pGrad.addColorStop(1, 'rgba(255, 185, 65, 0)');
-              ctx.fillStyle = pGrad;
-              ctx.beginPath();
-              ctx.arc(tip.x, tip.y, aHalf * 1.8, 0, Math.PI * 2);
-              ctx.fill();
-
-              const x0 = tip.x - Math.cos(antherAng) * aHalf;
-              const y0 = tip.y - Math.sin(antherAng) * aHalf;
-              const x1 = tip.x + Math.cos(antherAng) * aHalf;
-              const y1 = tip.y + Math.sin(antherAng) * aHalf;
-              const cxA = tip.x - Math.sin(antherAng) * 3.0;
-              const cyA = tip.y + Math.cos(antherAng) * 3.0;
-
-              ctx.beginPath();
-              ctx.moveTo(x0, y0);
-              ctx.quadraticCurveTo(cxA, cyA, x1, y1);
-              ctx.strokeStyle = `rgba(225, 110, 38, ${0.98 * aAlpha})`;
-              ctx.lineWidth = 3.5 * Math.max(0.75, r / 115);
-              ctx.lineCap = 'round';
-              ctx.stroke();
-
-              ctx.beginPath();
-              ctx.moveTo(x0, y0);
-              ctx.quadraticCurveTo(cxA, cyA, x1, y1);
-              ctx.strokeStyle = `rgba(255, 224, 115, ${0.92 * aAlpha})`;
-              ctx.lineWidth = 1.5 * Math.max(0.75, r / 115);
-              ctx.stroke();
-            }
-          }
-
-          ctx.beginPath();
-          let pTip = null;
-          for (let k = 0; k <= 18; k++) {
-            const t = (k / 18) * stProg;
-            const lx = Math.sin(t * 1.5) * r * 0.035;
-            const ly = -Math.pow(t, 1.4) * r * 0.32;
-            const lz = t * r * 0.82;
-            const rot = rotate3D(lx, ly, lz, flower.rx, flower.ry, flower.rz);
-            const px = flower.cx + rot.x;
-            const py = flower.cy + rot.y;
-            if (k === 0) ctx.moveTo(px, py);
-            else ctx.lineTo(px, py);
-            pTip = { x: px, y: py };
-          }
-          ctx.strokeStyle = `rgba(182, 238, 158, ${0.95 * fadeAlpha})`;
-          ctx.lineWidth = 2.0 * Math.max(0.75, r / 115);
-          ctx.stroke();
-
-          if (pTip && stProg > 0.6) {
-            for (let l = 0; l < 3; l++) {
-              const la = (l / 3) * Math.PI * 2 - Math.PI / 2;
-              ctx.fillStyle = `rgba(208, 248, 185, ${0.96 * fadeAlpha})`;
-              ctx.beginPath();
-              ctx.arc(pTip.x + Math.cos(la) * 2.4, pTip.y + Math.sin(la) * 2.4, 2.3, 0, Math.PI * 2);
-              ctx.fill();
-            }
-          }
-        }
-
-        ctx.restore();
-      }
-
-      function drawLilyBud(bud, elapsed, swayX, swayY) {
-        const localT = (elapsed - bud.delay) / 1.2;
-        if (localT <= 0) return;
-        const p = easeOutCubic(localT);
-
-        ctx.save();
-        ctx.translate(bud.x + swayX, bud.y + swayY);
-        ctx.rotate(bud.angle);
-        ctx.scale(p, p);
-
-        const len = bud.length;
-        const w = bud.width;
-
-        const grad = ctx.createLinearGradient(0, 0, 0, -len);
-        grad.addColorStop(0, 'rgba(88, 158, 78, 0.95)');
-        grad.addColorStop(0.5, 'rgba(168, 208, 158, 0.92)');
-        grad.addColorStop(0.84, 'rgba(242, 195, 228, 0.94)');
-        grad.addColorStop(1, 'rgba(255, 250, 255, 0.98)');
-
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.bezierCurveTo(-w, -len * 0.28, -w * 0.85, -len * 0.76, 0, -len);
-        ctx.bezierCurveTo(w * 0.85, -len * 0.76, w, -len * 0.28, 0, 0);
-        ctx.closePath();
-        ctx.fillStyle = grad;
-        ctx.fill();
-
-        ctx.strokeStyle = 'rgba(255, 250, 255, 0.82)';
-        ctx.lineWidth = 1.15;
-        ctx.stroke();
-
-        for (let seam of [-0.38, 0, 0.38]) {
-          ctx.beginPath();
-          ctx.moveTo(0, 0);
-          ctx.quadraticCurveTo(w * seam * 1.2, -len * 0.52, 0, -len);
-          ctx.strokeStyle = seam === 0
-            ? 'rgba(255, 245, 255, 0.65)'
-            : 'rgba(135, 190, 125, 0.62)';
-          ctx.lineWidth = 0.85;
-          ctx.stroke();
-        }
-
-        ctx.restore();
-      }
-
-      function buildBotanicalScene() {
-        const centerX = width * 0.5;
-        const scale = Math.min(width * 0.26, height * 0.145, 118);
-        const spreadX = Math.min(width * 0.34, scale * 1.48);
-
-        const cStemP0 = { x: centerX, y: height + 12 };
-        const cStemP1 = { x: centerX - 10, y: height * 0.66 };
-        const cStemP2 = { x: centerX + 8, y: height * 0.38 };
-        const cStemP3 = { x: centerX, y: height * 0.13 };
-
-        const lStemP0 = cubicBezier(cStemP0, cStemP1, cStemP2, cStemP3, 0.24);
-        const lStemP1 = { x: centerX - spreadX * 0.35, y: height * 0.60 };
-        const lStemP2 = { x: centerX - spreadX * 0.82, y: height * 0.40 };
-        const lStemP3 = { x: centerX - spreadX * 1.02, y: height * 0.22 };
-
-        const rStemP0 = cubicBezier(cStemP0, cStemP1, cStemP2, cStemP3, 0.26);
-        const rStemP1 = { x: centerX + spreadX * 0.35, y: height * 0.58 };
-        const rStemP2 = { x: centerX + spreadX * 0.82, y: height * 0.39 };
-        const rStemP3 = { x: centerX + spreadX * 1.04, y: height * 0.21 };
-
-        mainStems = [
-          {
-            delay: 0.0,
-            duration: 1.55,
-            width: 4.2,
-            pts: sampleCurve(cStemP0, cStemP1, cStemP2, cStemP3, 100)
-          },
-          {
-            delay: 0.38,
-            duration: 1.35,
-            width: 3.2,
-            pts: sampleCurve(lStemP0, lStemP1, lStemP2, lStemP3, 85)
-          },
-          {
-            delay: 0.44,
-            duration: 1.35,
-            width: 3.2,
-            pts: sampleCurve(rStemP0, rStemP1, rStemP2, rStemP3, 85)
-          }
-        ];
-
-        const pos = {
-          upperLeft:   { x: centerX - spreadX * 0.98, y: height * 0.30 },
-          upperRight:  { x: centerX + spreadX * 1.00, y: height * 0.29 },
-          upperCenter: { x: centerX - 3,              y: height * 0.24 },
-          midLeft:     { x: centerX - spreadX * 0.72, y: height * 0.47 },
-          midRight:    { x: centerX + spreadX * 0.74, y: height * 0.46 },
-          lowerLeft:   { x: centerX - spreadX * 0.48, y: height * 0.63 },
-          lowerRight:  { x: centerX + spreadX * 0.50, y: height * 0.62 },
-          centerHero:  { x: centerX,                  y: height * 0.43 },
-          lowerCenter: { x: centerX + 4,              y: height * 0.60 },
-
-          budTopCenter: { x: centerX,                  y: height * 0.13 },
-          budTopLeft:   { x: centerX - spreadX * 0.28, y: height * 0.15 },
-          budTopRight:  { x: centerX + spreadX * 0.28, y: height * 0.15 },
-          budLeftTip:   { x: centerX - spreadX * 1.02, y: height * 0.22 },
-          budRightTip:  { x: centerX + spreadX * 1.04, y: height * 0.21 },
-          budOuterLeft: { x: centerX - spreadX * 1.22, y: height * 0.39 },
-          budOuterRight:{ x: centerX + spreadX * 1.24, y: height * 0.38 }
-        };
-
-        const cNodeLow   = cubicBezier(cStemP0, cStemP1, cStemP2, cStemP3, 0.44);
-        const cNodeMid   = cubicBezier(cStemP0, cStemP1, cStemP2, cStemP3, 0.62);
-        const cNodeHigh  = cubicBezier(cStemP0, cStemP1, cStemP2, cStemP3, 0.80);
-        const cNodeCrown = cubicBezier(cStemP0, cStemP1, cStemP2, cStemP3, 0.90);
-
-        const lNodeLow   = cubicBezier(lStemP0, lStemP1, lStemP2, lStemP3, 0.32);
-        const lNodeMid   = cubicBezier(lStemP0, lStemP1, lStemP2, lStemP3, 0.58);
-        const lNodeHigh  = cubicBezier(lStemP0, lStemP1, lStemP2, lStemP3, 0.80);
-
-        const rNodeLow   = cubicBezier(rStemP0, rStemP1, rStemP2, rStemP3, 0.32);
-        const rNodeMid   = cubicBezier(rStemP0, rStemP1, rStemP2, rStemP3, 0.58);
-        const rNodeHigh  = cubicBezier(rStemP0, rStemP1, rStemP2, rStemP3, 0.80);
-
-        function makePedicel(fromPt, toPt, delay, bendX = 0, bendY = -20) {
-          return {
-            delay,
-            pts: sampleCurve(
-              fromPt,
-              { x: (fromPt.x + toPt.x) * 0.5 + bendX, y: (fromPt.y + toPt.y) * 0.5 + bendY },
-              { x: toPt.x - bendX * 0.3, y: toPt.y + 10 },
-              toPt,
-              28
-            )
-          };
-        }
-
-        pedicels = [
-          makePedicel(lNodeLow,   pos.lowerLeft,    0.85, -18, -15),
-          makePedicel(rNodeLow,   pos.lowerRight,   0.90,  18, -15),
-          makePedicel(cNodeLow,   pos.lowerCenter,  0.95,   6, -18),
-          makePedicel(lNodeMid,   pos.midLeft,      1.05, -22, -20),
-          makePedicel(rNodeMid,   pos.midRight,     1.10,  22, -20),
-          makePedicel(cNodeMid,   pos.centerHero,   1.15,   0, -22),
-          makePedicel(lNodeHigh,  pos.upperLeft,    1.25, -18, -15),
-          makePedicel(rNodeHigh,  pos.upperRight,   1.30,  18, -15),
-          makePedicel(cNodeHigh,  pos.upperCenter,  1.35,  -4, -18),
-          makePedicel(cNodeCrown, pos.budTopLeft,   1.42, -14, -12),
-          makePedicel(cNodeCrown, pos.budTopRight,  1.45,  14, -12),
-          makePedicel(lNodeMid,   pos.budOuterLeft, 1.48, -28, -10),
-          makePedicel(rNodeMid,   pos.budOuterRight,1.50,  28, -10)
-        ];
-
-        leaves = [
-          { stemIdx: 0, t: 0.12, dir: -1, len: scale * 0.95, width: 12, angle: -0.62, arch: 0.35, delay: 0.28 },
-          { stemIdx: 0, t: 0.17, dir:  1, len: scale * 1.00, width: 13, angle: -0.58, arch: 0.34, delay: 0.36 },
-          { stemIdx: 0, t: 0.23, dir: -1, len: scale * 0.88, width: 11, angle: -0.68, arch: 0.30, delay: 0.46 },
-          { stemIdx: 1, t: 0.18, dir: -1, len: scale * 0.86, width: 11, angle: -0.78, arch: 0.36, delay: 0.62 },
-          { stemIdx: 2, t: 0.18, dir:  1, len: scale * 0.86, width: 11, angle: -0.78, arch: 0.36, delay: 0.66 },
-          { stemIdx: 1, t: 0.42, dir: -1, len: scale * 0.76, width: 10, angle: -0.84, arch: 0.32, delay: 0.82 },
-          { stemIdx: 2, t: 0.42, dir:  1, len: scale * 0.76, width: 10, angle: -0.84, arch: 0.32, delay: 0.86 },
-          { stemIdx: 1, t: 0.68, dir:  1, len: scale * 0.62, width: 8.5, angle: -0.52, arch: 0.24, delay: 1.02 },
-          { stemIdx: 2, t: 0.68, dir: -1, len: scale * 0.62, width: 8.5, angle: -0.52, arch: 0.24, delay: 1.06 }
-        ];
-
-        tendrils = [];
-        const tendrilOrigins = [pos.upperLeft, pos.upperRight, pos.upperCenter, pos.midLeft, pos.midRight, pos.budTopCenter];
-        for (let i = 0; i < 24; i++) {
-          const orig = tendrilOrigins[i % tendrilOrigins.length];
-          const ang = -Math.PI / 2 + (hash(i * 31) - 0.5) * 2.2;
-          const len = (0.45 + hash(i * 57) * 0.75) * scale;
-          tendrils.push({
-            origin: orig,
-            ctrl: {
-              x: orig.x + Math.cos(ang + 0.35) * len * 0.55,
-              y: orig.y + Math.sin(ang + 0.35) * len * 0.55
-            },
-            end: {
-              x: orig.x + Math.cos(ang) * len,
-              y: orig.y + Math.sin(ang) * len
-            },
-            delay: 1.5 + (i % 7) * 0.15
-          });
-        }
-
-        buds = [
-          { x: pos.budTopCenter.x,  y: pos.budTopCenter.y,  length: scale * 0.54, width: scale * 0.125, angle: -0.02, delay: 1.55 },
-          { x: pos.budTopLeft.x,    y: pos.budTopLeft.y,    length: scale * 0.44, width: scale * 0.105, angle: -0.28, delay: 1.62 },
-          { x: pos.budTopRight.x,   y: pos.budTopRight.y,   length: scale * 0.44, width: scale * 0.105, angle:  0.28, delay: 1.65 },
-          { x: pos.budLeftTip.x,    y: pos.budLeftTip.y,    length: scale * 0.46, width: scale * 0.11,  angle: -0.46, delay: 1.68 },
-          { x: pos.budRightTip.x,   y: pos.budRightTip.y,   length: scale * 0.46, width: scale * 0.11,  angle:  0.46, delay: 1.72 },
-          { x: pos.budOuterLeft.x,  y: pos.budOuterLeft.y,  length: scale * 0.40, width: scale * 0.095, angle: -0.68, delay: 1.76 },
-          { x: pos.budOuterRight.x, y: pos.budOuterRight.y, length: scale * 0.40, width: scale * 0.095, angle:  0.68, delay: 1.80 }
-        ];
-
-        flowers = [
-          buildLilyFlower({
-            cx: pos.upperLeft.x, cy: pos.upperLeft.y,
-            radius: scale * 0.74,
-            rx: 0.35, ry: -0.68, rz: -0.34,
-            delay: 1.72, seedBase: 1, paletteName: 'lilac'
-          }),
-          buildLilyFlower({
-            cx: pos.upperRight.x, cy: pos.upperRight.y,
-            radius: scale * 0.76,
-            rx: 0.35, ry: 0.68, rz: 0.34,
-            delay: 1.78, seedBase: 2, paletteName: 'blush'
-          }),
-          buildLilyFlower({
-            cx: pos.upperCenter.x, cy: pos.upperCenter.y,
-            radius: scale * 0.86,
-            rx: 0.38, ry: 0.04, rz: -0.02,
-            delay: 1.85, seedBase: 3, paletteName: 'rose'
-          }),
-          buildLilyFlower({
-            cx: pos.midLeft.x, cy: pos.midLeft.y,
-            radius: scale * 0.88,
-            rx: 0.28, ry: -0.46, rz: -0.20,
-            delay: 1.48, seedBase: 4, paletteName: 'blush'
-          }),
-          buildLilyFlower({
-            cx: pos.midRight.x, cy: pos.midRight.y,
-            radius: scale * 0.88,
-            rx: 0.28, ry: 0.48, rz: 0.22,
-            delay: 1.54, seedBase: 5, paletteName: 'lilac'
-          }),
-          buildLilyFlower({
-            cx: pos.lowerLeft.x, cy: pos.lowerLeft.y,
-            radius: scale * 0.78,
-            rx: 0.22, ry: -0.36, rz: -0.15,
-            delay: 1.22, seedBase: 6, paletteName: 'rose'
-          }),
-          buildLilyFlower({
-            cx: pos.lowerRight.x, cy: pos.lowerRight.y,
-            radius: scale * 0.78,
-            rx: 0.22, ry: 0.38, rz: 0.16,
-            delay: 1.28, seedBase: 7, paletteName: 'blush'
-          }),
-          buildLilyFlower({
-            cx: pos.centerHero.x, cy: pos.centerHero.y,
-            radius: scale * 1.12,
-            rx: 0.22, ry: -0.04, rz: 0.01,
-            delay: 1.60, seedBase: 8, paletteName: 'rose'
-          }),
-          buildLilyFlower({
-            cx: pos.lowerCenter.x, cy: pos.lowerCenter.y,
-            radius: scale * 0.94,
-            rx: 0.18, ry: 0.06, rz: -0.02,
-            delay: 1.38, seedBase: 9, paletteName: 'lilac'
-          })
-        ];
-
-        ambientPollen = [];
-        for (let i = 0; i < 135; i++) {
-          ambientPollen.push({
-            x: centerX + (Math.random() - 0.5) * spreadX * 2.7,
-            y: height * (0.10 + Math.random() * 0.66),
-            vx: (Math.random() - 0.5) * 0.22,
-            vy: -0.10 - Math.random() * 0.26,
+      let dewDrops = [];
+      let soilSparkles = [];
+      let fireflies = [];
+
+      function initParticles() {
+        fireflies = [];
+        for (let i = 0; i < 65; i++) {
+          fireflies.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            vx: (Math.random() - 0.5) * 0.25,
+            vy: -0.08 - Math.random() * 0.22,
             size: 0.9 + Math.random() * 1.9,
-            alpha: 0.25 + Math.random() * 0.65,
-            delay: 1.6 + Math.random() * 2.2,
-            isGold: Math.random() < 0.35,
-            isSquare: Math.random() < 0.24,
+            alpha: 0.2 + Math.random() * 0.65,
+            isGold: Math.random() < 0.45,
+            isSquare: Math.random() < 0.2,
             phase: Math.random() * Math.PI * 2
           });
         }
@@ -1030,290 +374,427 @@
         canvas.width = width * dpr;
         canvas.height = height * dpr;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        buildBotanicalScene();
+        initParticles();
       }
 
       window.addEventListener('resize', resize);
 
-      function createClickBurst(x, y) {
-        for (let i = 0; i < 68; i++) {
-          const angle = Math.random() * Math.PI * 2;
-          const speed = 0.4 + Math.pow(Math.random(), 1.4) * 3.2;
-          clickBursts.push({
-            x, y,
-            vx: Math.cos(angle) * speed,
-            vy: Math.sin(angle) * speed,
-            size: 1.0 + Math.random() * 1.9,
-            alpha: 0.65 + Math.random() * 0.35,
-            born: performance.now(),
-            life: 850 + Math.random() * 850,
-            isSquare: Math.random() < 0.25
+      function spawnWaterDrops(domeX, domeTopY, domeRadius, soilY) {
+        const dropCount = 7;
+        for (let i = 0; i < dropCount; i++) {
+          dewDrops.push({
+            x: domeX + (Math.random() - 0.5) * domeRadius * 0.72,
+            y: domeTopY + 24 + Math.random() * 25,
+            vy: 1.4 + Math.random() * 1.6,
+            targetY: soilY - 4 + (Math.random() - 0.5) * 10,
+            size: 2.2 + Math.random() * 1.4,
+            delay: i * 0.09
           });
         }
       }
 
-      let lastInteractionTime = 0;
-      function handleTrigger(clientX, clientY) {
-        const nowMs = performance.now();
-        const isDuplicateEvent = (nowMs - lastInteractionTime) < 280;
-        lastInteractionTime = nowMs;
-
-        const unlockPromise = ensureAudioUnlocked();
-
-        if (!started) {
-          started = true;
-          startTime = nowMs;
-          createClickBurst(clientX, clientY);
-          hintEl.classList.add('hidden');
-          soundBtn.classList.add('visible');
-
-          if (unlockPromise) {
-            unlockPromise.then(() => {
-              playBloomSymphony();
-            }).catch(() => {
-              playBloomSymphony();
-            });
-          } else {
-            playBloomSymphony();
-          }
-
-          setTimeout(() => {
-            captionEl.classList.add('visible');
-          }, 2600);
-        } else if (!isDuplicateEvent) {
-          createClickBurst(clientX, clientY);
-          const playTapNote = () => {
-            if (!symphonyPlayed) {
-              playBloomSymphony();
-              return;
-            }
-            const note = HARP_SCALE[TouchNoteIdx % HARP_SCALE.length];
-            TouchNoteIdx++;
-            playCelestaNote(note, 0, 0.15, 2.4);
-            playCelestaNote(note * 1.5, 0.08, 0.075, 1.8);
-          };
-          if (unlockPromise) {
-            unlockPromise.then(playTapNote).catch(playTapNote);
-          } else {
-            playTapNote();
-          }
-        }
+      function showFloatingToast(x, y, text) {
+        const el = document.createElement('div');
+        el.className = 'floating-toast';
+        el.textContent = text;
+        el.style.left = `${Math.min(width - 130, Math.max(130, x))}px`;
+        el.style.top = `${Math.max(70, y - 20)}px`;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 1800);
       }
 
-      window.addEventListener('touchstart', (e) => {
-        if (e.target === soundBtn) return;
-        const touch = e.changedTouches && e.changedTouches[0];
-        if (touch) {
-          handleTrigger(touch.clientX, touch.clientY);
-        }
+      let lastTapTime = 0;
+      function triggerWatering(clientX, clientY) {
+        const now = performance.now();
+        if (now - lastTapTime < 260) return;
+        lastTapTime = now;
+
+        const domeX = width * 0.5;
+        const domeCenterY = height * 0.41;
+        const domeW = Math.min(width * 0.56, height * 0.29, 210);
+        const domeH = domeW * 1.34;
+        const domeTopY = domeCenterY - domeH * 0.52;
+        const soilY = domeCenterY + domeH * 0.44;
+
+        spawnWaterDrops(domeX, domeTopY, domeW * 0.5, soilY);
+
+        const reaction = WATER_REACTIONS[waterCount % WATER_REACTIONS.length];
+        waterCount++;
+        targetGrowthBonus = Math.min(1.0, targetGrowthBonus + 0.14);
+        domeGlowPulse = 1.0;
+
+        const pct = Math.min(98, 35 + waterCount * 9);
+        progressBar.style.width = `${pct}%`;
+        waterBtnText.textContent = `Can Suyu Verildi (${waterCount}) ✨`;
+
+        showFloatingToast(clientX || domeX, clientY || domeCenterY, reaction);
+
+        ensureAudio().then(() => {
+          playWaterDropSound(waterCount);
+        });
+      }
+
+      waterBtn.addEventListener('touchstart', (e) => {
+        e.stopPropagation();
+        const t = e.changedTouches && e.changedTouches[0];
+        triggerWatering(t ? t.clientX : width * 0.5, t ? t.clientY : height * 0.65);
       }, { passive: true });
 
-      window.addEventListener('touchend', () => {
-        ensureAudioUnlocked().then(() => {
-          if (started && !symphonyPlayed) playBloomSymphony();
-        });
+      waterBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        triggerWatering(e.clientX, e.clientY);
+      });
+
+      window.addEventListener('touchstart', (e) => {
+        if (e.target.closest('#water-btn')) return;
+        const t = e.changedTouches && e.changedTouches[0];
+        if (t) triggerWatering(t.clientX, t.clientY);
       }, { passive: true });
 
       window.addEventListener('click', (e) => {
-        if (e.target === soundBtn) return;
-        handleTrigger(e.clientX, e.clientY);
+        if (e.target.closest('#water-btn')) return;
+        triggerWatering(e.clientX, e.clientY);
       });
 
       function render(now) {
         requestAnimationFrame(render);
 
+        const t = now * 0.001;
+        growthBonus += (targetGrowthBonus - growthBonus) * 0.04;
+        domeGlowPulse *= 0.95;
+
         ctx.globalCompositeOperation = 'source-over';
-        ctx.fillStyle = '#000000';
+        const bgGrad = ctx.createRadialGradient(width * 0.5, height * 0.42, 10, width * 0.5, height * 0.42, Math.max(width, height) * 0.75);
+        bgGrad.addColorStop(0, '#170924');
+        bgGrad.addColorStop(0.45, '#0b0412');
+        bgGrad.addColorStop(1, '#040107');
+        ctx.fillStyle = bgGrad;
         ctx.fillRect(0, 0, width, height);
 
-        for (let i = clickBursts.length - 1; i >= 0; i--) {
-          const b = clickBursts[i];
-          const age = now - b.born;
-          if (age > b.life) {
-            clickBursts.splice(i, 1);
-            continue;
-          }
-          const prog = age / b.life;
-          b.x += b.vx;
-          b.y += b.vy;
-          b.vx *= 0.975;
-          b.vy *= 0.975;
+        const cx = width * 0.5;
+        const cy = height * 0.41;
+        const domeRadius = Math.min(width * 0.28, height * 0.145, 106);
+        const domeStraightH = domeRadius * 1.18;
+        const baseY = cy + domeStraightH * 0.68;
 
-          const alpha = (1 - prog) * b.alpha;
-          if (b.isSquare) {
-            ctx.strokeStyle = `rgba(248, 225, 255, ${alpha})`;
-            ctx.lineWidth = 0.8;
-            ctx.strokeRect(b.x - b.size, b.y - b.size, b.size * 2, b.size * 2);
+        const auraRadius = domeRadius * (2.1 + growthBonus * 0.4 + domeGlowPulse * 0.25);
+        const auraGrad = ctx.createRadialGradient(cx, cy - 10, 0, cx, cy - 10, auraRadius);
+        auraGrad.addColorStop(0, `rgba(238, 148, 214, ${0.18 + growthBonus * 0.1 + domeGlowPulse * 0.12})`);
+        auraGrad.addColorStop(0.5, 'rgba(158, 92, 205, 0.06)');
+        auraGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = auraGrad;
+        ctx.beginPath();
+        ctx.arc(cx, cy - 10, auraRadius, 0, Math.PI * 2);
+        ctx.fill();
+
+        fireflies.forEach((p) => {
+          p.x += p.vx + Math.sin(t * 0.8 + p.phase) * 0.1;
+          p.y += p.vy;
+          if (p.y < -10) p.y = height + 10;
+          if (p.x < -10) p.x = width + 10;
+          if (p.x > width + 10) p.x = -10;
+
+          const twinkle = 0.35 + 0.65 * Math.sin(t * 2.6 + p.phase);
+          const alpha = p.alpha * twinkle;
+          if (p.isSquare) {
+            ctx.strokeStyle = p.isGold
+              ? `rgba(255, 220, 140, ${alpha})`
+              : `rgba(245, 210, 255, ${alpha})`;
+            ctx.lineWidth = 0.75;
+            ctx.strokeRect(p.x - p.size, p.y - p.size, p.size * 2, p.size * 2);
           } else {
-            ctx.fillStyle = `rgba(255, 242, 255, ${alpha})`;
+            ctx.fillStyle = p.isGold
+              ? `rgba(255, 215, 125, ${alpha})`
+              : `rgba(255, 238, 255, ${alpha})`;
             ctx.beginPath();
-            ctx.arc(b.x, b.y, b.size, 0, Math.PI * 2);
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
             ctx.fill();
           }
-        }
-
-        if (!started) return;
-
-        const elapsed = (now - startTime) / 1000;
-        const swayX = Math.sin(elapsed * 0.82) * Math.min(elapsed * 0.65, 2.8);
-        const swayY = Math.cos(elapsed * 0.62) * Math.min(elapsed * 0.35, 1.2);
-
-        mainStems.forEach((st) => {
-          const prog = easeOutCubic((elapsed - st.delay) / st.duration);
-          if (prog <= 0) return;
-          const maxIdx = Math.floor(prog * (st.pts.length - 1));
-          if (maxIdx < 1) return;
-
-          ctx.save();
-          ctx.lineCap = 'round';
-          for (let i = 1; i <= maxIdx; i++) {
-            const p0 = st.pts[i - 1];
-            const p1 = st.pts[i];
-            const t = p1.t;
-            const s0 = Math.pow(p0.t, 1.4) * swayX;
-            const s1 = Math.pow(p1.t, 1.4) * swayX;
-
-            ctx.beginPath();
-            ctx.moveTo(p0.x + s0, p0.y);
-            ctx.lineTo(p1.x + s1, p1.y);
-            ctx.strokeStyle = `rgba(${74 + Math.floor(t * 38)}, ${145 + Math.floor(t * 42)}, ${68 + Math.floor(t * 30)}, 0.95)`;
-            ctx.lineWidth = (1 - t * 0.45) * st.width;
-            ctx.stroke();
-
-            ctx.beginPath();
-            ctx.moveTo(p0.x + s0 - 0.7, p0.y);
-            ctx.lineTo(p1.x + s1 - 0.7, p1.y);
-            ctx.strokeStyle = 'rgba(175, 228, 155, 0.45)';
-            ctx.lineWidth = 0.85;
-            ctx.stroke();
-          }
-          ctx.restore();
         });
 
-        leaves.forEach((lf) => {
-          const lp = easeOutCubic((elapsed - lf.delay) / 0.85);
-          if (lp <= 0) return;
-          const stem = mainStems[lf.stemIdx];
-          const idx = Math.floor(lf.t * (stem.pts.length - 1));
-          const base = stem.pts[idx];
-          const bx = base.x + Math.pow(base.t, 1.4) * swayX;
-          const by = base.y;
+        ctx.save();
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.65)';
+        ctx.beginPath();
+        ctx.ellipse(cx, baseY + 14, domeRadius * 1.18, 16, 0, 0, Math.PI * 2);
+        ctx.fill();
 
-          const curLen = lf.len * lp;
-          const tipX = bx + lf.dir * Math.cos(lf.angle) * curLen;
-          const tipY = by + Math.sin(lf.angle + lf.arch) * curLen;
-          const ctrlX = bx + lf.dir * curLen * 0.48;
-          const ctrlY = by + Math.sin(lf.angle - lf.arch * 0.75) * curLen * 0.55;
+        const baseGrad = ctx.createLinearGradient(cx - domeRadius * 1.1, baseY, cx + domeRadius * 1.1, baseY);
+        baseGrad.addColorStop(0, '#241522');
+        baseGrad.addColorStop(0.3, '#543546');
+        baseGrad.addColorStop(0.5, '#7a5264');
+        baseGrad.addColorStop(0.7, '#4c2f3f');
+        baseGrad.addColorStop(1, '#1d101b');
+        ctx.fillStyle = baseGrad;
+        ctx.beginPath();
+        ctx.ellipse(cx, baseY + 6, domeRadius * 1.10, 14, 0, 0, Math.PI * 2);
+        ctx.fill();
 
-          ctx.save();
+        ctx.strokeStyle = 'rgba(255, 215, 148, 0.55)';
+        ctx.lineWidth = 1.4;
+        ctx.beginPath();
+        ctx.ellipse(cx, baseY + 3, domeRadius * 1.06, 12, 0, 0, Math.PI * 2);
+        ctx.stroke();
+
+        const soilGrad = ctx.createRadialGradient(cx, baseY - 2, 4, cx, baseY, domeRadius * 0.95);
+        soilGrad.addColorStop(0, '#466d3f');
+        soilGrad.addColorStop(0.55, '#274225');
+        soilGrad.addColorStop(1, '#132014');
+        ctx.fillStyle = soilGrad;
+        ctx.beginPath();
+        ctx.ellipse(cx, baseY, domeRadius * 0.94, 11, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        for (let m = 0; m < 18; m++) {
+          const ang = (m / 18) * Math.PI * 2 + m;
+          const dist = (0.2 + (m % 5) * 0.16) * domeRadius * 0.85;
+          const mx = cx + Math.cos(ang) * dist;
+          const my = baseY + Math.sin(ang) * 6;
+          const mAlpha = 0.35 + 0.45 * Math.sin(t * 2.2 + m);
+          ctx.fillStyle = `rgba(165, 238, 145, ${mAlpha})`;
+          ctx.beginPath();
+          ctx.arc(mx, my, 1.3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+
+        const sway = Math.sin(t * 1.3) * 3.2;
+        const breathe = 1 + Math.sin(t * 2.1) * 0.035;
+        const plantScale = (0.78 + growthBonus * 0.28) * breathe;
+        const stemHeight = (domeStraightH * 0.82 + domeRadius * 0.42) * plantScale;
+
+        const stemBase = { x: cx, y: baseY - 2 };
+        const stemTip = { x: cx + sway, y: baseY - stemHeight };
+        const cp1 = { x: cx - 10, y: baseY - stemHeight * 0.35 };
+        const cp2 = { x: cx + 8 + sway * 0.5, y: baseY - stemHeight * 0.70 };
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(stemBase.x, stemBase.y);
+        ctx.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, stemTip.x, stemTip.y);
+        ctx.strokeStyle = '#6ec462';
+        ctx.lineWidth = 3.4;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(stemBase.x - 0.7, stemBase.y);
+        ctx.bezierCurveTo(cp1.x - 0.7, cp1.y, cp2.x - 0.7, cp2.y, stemTip.x - 0.7, stemTip.y);
+        ctx.strokeStyle = 'rgba(195, 248, 180, 0.65)';
+        ctx.lineWidth = 1.0;
+        ctx.stroke();
+
+        const leafDefs = [
+          { u: 0.24, dir: -1, len: 46 * plantScale, ang: -0.68 },
+          { u: 0.38, dir:  1, len: 50 * plantScale, ang: -0.62 },
+          { u: 0.55, dir: -1, len: 42 * plantScale, ang: -0.74 },
+          { u: 0.68, dir:  1, len: 36 * plantScale, ang: -0.70 }
+        ];
+
+        leafDefs.forEach((lf, idx) => {
+          const u = lf.u;
+          const inv = 1 - u;
+          const bx = inv*inv*inv*stemBase.x + 3*inv*inv*u*cp1.x + 3*inv*u*u*cp2.x + u*u*u*stemTip.x;
+          const by = inv*inv*inv*stemBase.y + 3*inv*inv*u*cp1.y + 3*inv*u*u*cp2.y + u*u*u*stemTip.y;
+
+          const leafSway = Math.sin(t * 1.6 + idx) * 2.0;
+          const tipX = bx + lf.dir * Math.cos(lf.ang) * lf.len;
+          const tipY = by + Math.sin(lf.ang + 0.3) * lf.len + leafSway;
+          const ctrlX = bx + lf.dir * lf.len * 0.48;
+          const ctrlY = by + Math.sin(lf.ang - 0.25) * lf.len * 0.55;
+
           ctx.beginPath();
           ctx.moveTo(bx, by);
-          ctx.quadraticCurveTo(ctrlX, ctrlY - lf.width * 0.55 * lp, tipX, tipY);
-          ctx.quadraticCurveTo(ctrlX, ctrlY + lf.width * 0.55 * lp, bx, by + 4);
+          ctx.quadraticCurveTo(ctrlX, ctrlY - 5.5, tipX, tipY);
+          ctx.quadraticCurveTo(ctrlX, ctrlY + 5.5, bx, by + 3);
           ctx.closePath();
 
           const lGrad = ctx.createLinearGradient(bx, by, tipX, tipY);
-          lGrad.addColorStop(0, 'rgba(58, 120, 52, 0.9)');
-          lGrad.addColorStop(0.6, 'rgba(92, 164, 80, 0.8)');
-          lGrad.addColorStop(1, 'rgba(155, 215, 135, 0.7)');
+          lGrad.addColorStop(0, 'rgba(62, 132, 55, 0.92)');
+          lGrad.addColorStop(1, 'rgba(162, 228, 142, 0.78)');
           ctx.fillStyle = lGrad;
           ctx.fill();
 
           ctx.beginPath();
-          ctx.moveTo(bx, by + 1);
+          ctx.moveTo(bx, by);
           ctx.quadraticCurveTo(ctrlX, ctrlY, tipX, tipY);
-          ctx.strokeStyle = 'rgba(178, 232, 158, 0.72)';
-          ctx.lineWidth = 1.0;
+          ctx.strokeStyle = 'rgba(195, 245, 178, 0.75)';
+          ctx.lineWidth = 0.9;
           ctx.stroke();
-          ctx.restore();
         });
 
-        pedicels.forEach((pd) => {
-          const pp = easeOutCubic((elapsed - pd.delay) / 0.55);
-          if (pp <= 0) return;
-          const count = Math.floor(pp * (pd.pts.length - 1));
-          if (count < 1) return;
+        ctx.save();
+        ctx.translate(stemTip.x, stemTip.y);
+        ctx.rotate(sway * 0.025);
+
+        const budLen = (48 + growthBonus * 14) * breathe;
+        const budW = (15 + growthBonus * 5) * breathe;
+        const openAngle = 0.08 + growthBonus * 0.34;
+
+        const budGlow = ctx.createRadialGradient(0, -budLen * 0.5, 2, 0, -budLen * 0.5, budLen * (1.2 + domeGlowPulse * 0.5));
+        budGlow.addColorStop(0, `rgba(255, 195, 238, ${0.42 + domeGlowPulse * 0.35})`);
+        budGlow.addColorStop(0.5, 'rgba(235, 135, 210, 0.14)');
+        budGlow.addColorStop(1, 'rgba(235, 135, 210, 0)');
+        ctx.fillStyle = budGlow;
+        ctx.beginPath();
+        ctx.arc(0, -budLen * 0.5, budLen * 1.4, 0, Math.PI * 2);
+        ctx.fill();
+
+        for (let side of [-1, 1]) {
+          ctx.save();
+          ctx.rotate(side * openAngle);
+          const pGrad = ctx.createLinearGradient(0, 0, 0, -budLen * 0.96);
+          pGrad.addColorStop(0, 'rgba(118, 195, 104, 0.92)');
+          pGrad.addColorStop(0.35, 'rgba(232, 148, 204, 0.90)');
+          pGrad.addColorStop(0.8, 'rgba(248, 205, 236, 0.94)');
+          pGrad.addColorStop(1, 'rgba(255, 252, 255, 0.98)');
+
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.bezierCurveTo(-budW * 0.75, -budLen * 0.28, -budW * 0.55, -budLen * 0.75, side * 4 * growthBonus, -budLen * 0.96);
+          ctx.bezierCurveTo(budW * 0.55, -budLen * 0.75, budW * 0.75, -budLen * 0.28, 0, 0);
+          ctx.closePath();
+          ctx.fillStyle = pGrad;
+          ctx.fill();
+
+          ctx.strokeStyle = 'rgba(255, 250, 255, 0.88)';
+          ctx.lineWidth = 1.2;
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        const cGrad = ctx.createLinearGradient(0, 0, 0, -budLen);
+        cGrad.addColorStop(0, 'rgba(105, 185, 92, 0.95)');
+        cGrad.addColorStop(0.32, 'rgba(225, 128, 192, 0.94)');
+        cGrad.addColorStop(0.75, 'rgba(248, 198, 232, 0.96)');
+        cGrad.addColorStop(1, 'rgba(255, 252, 255, 1)');
+
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.bezierCurveTo(-budW, -budLen * 0.28, -budW * 0.82, -budLen * 0.76, 0, -budLen);
+        ctx.bezierCurveTo(budW * 0.82, -budLen * 0.76, budW, -budLen * 0.28, 0, 0);
+        ctx.closePath();
+        ctx.fillStyle = cGrad;
+        ctx.fill();
+
+        ctx.strokeStyle = 'rgba(255, 252, 255, 0.94)';
+        ctx.lineWidth = 1.4;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(0, -2);
+        ctx.lineTo(0, -budLen * 0.92);
+        ctx.strokeStyle = 'rgba(218, 88, 168, 0.75)';
+        ctx.lineWidth = 1.4;
+        ctx.stroke();
+
+        ctx.restore();
+        ctx.restore();
+
+        for (let i = dewDrops.length - 1; i >= 0; i--) {
+          const d = dewDrops[i];
+          if (d.delay > 0) {
+            d.delay -= 0.016;
+            continue;
+          }
+          d.y += d.vy;
+          d.vy += 0.08;
 
           ctx.save();
+          ctx.fillStyle = 'rgba(185, 238, 255, 0.92)';
           ctx.beginPath();
-          for (let i = 0; i <= count; i++) {
-            const pt = pd.pts[i];
-            if (i === 0) ctx.moveTo(pt.x + swayX, pt.y + swayY * 0.5);
-            else ctx.lineTo(pt.x + swayX, pt.y + swayY * 0.5);
-          }
-          ctx.strokeStyle = 'rgba(98, 168, 86, 0.92)';
-          ctx.lineWidth = 2.1;
-          ctx.stroke();
+          ctx.moveTo(d.x, d.y - d.size * 1.8);
+          ctx.quadraticCurveTo(d.x + d.size, d.y, d.x, d.y + d.size);
+          ctx.quadraticCurveTo(d.x - d.size, d.y, d.x, d.y - d.size * 1.8);
+          ctx.fill();
           ctx.restore();
-        });
 
-        tendrils.forEach((td) => {
-          const tp = easeOutCubic((elapsed - td.delay) / 0.9);
-          if (tp <= 0) return;
-          const ox = td.origin.x + swayX;
-          const oy = td.origin.y + swayY;
-          const cx = ox + (td.ctrl.x - td.origin.x) * tp;
-          const cy = oy + (td.ctrl.y - td.origin.y) * tp;
-          const ex = ox + (td.end.x - td.origin.x) * tp;
-          const ey = oy + (td.end.y - td.origin.y) * tp;
-
-          ctx.save();
-          ctx.beginPath();
-          ctx.moveTo(ox, oy);
-          ctx.quadraticCurveTo(cx, cy, ex, ey);
-          ctx.strokeStyle = `rgba(195, 222, 188, ${0.28 * tp})`;
-          ctx.lineWidth = 0.7;
-          ctx.stroke();
-
-          if (tp > 0.75) {
-            ctx.fillStyle = `rgba(250, 238, 255, ${0.62 * tp})`;
-            ctx.fillRect(ex - 1, ey - 1, 2.2, 2.2);
+          if (d.y >= d.targetY) {
+            for (let s = 0; s < 6; s++) {
+              const ang = Math.random() * Math.PI * 2;
+              const spd = 0.4 + Math.random() * 1.6;
+              soilSparkles.push({
+                x: d.x,
+                y: d.targetY,
+                vx: Math.cos(ang) * spd,
+                vy: -Math.abs(Math.sin(ang) * spd) - 0.5,
+                alpha: 0.95,
+                size: 1.2 + Math.random() * 1.3
+              });
+            }
+            dewDrops.splice(i, 1);
           }
-          ctx.restore();
-        });
+        }
 
-        buds.forEach((bud) => {
-          drawLilyBud(bud, elapsed, swayX, swayY);
-        });
-
-        flowers.forEach((flower) => {
-          drawLilyFlower(flower, elapsed, swayX, swayY);
-        });
-
-        ambientPollen.forEach((sp) => {
-          const ap = easeOutCubic((elapsed - sp.delay) / 1.4);
-          if (ap <= 0) return;
-
-          sp.x += sp.vx + Math.sin(elapsed * 0.9 + sp.phase) * 0.08;
+        for (let i = soilSparkles.length - 1; i >= 0; i--) {
+          const sp = soilSparkles[i];
+          sp.x += sp.vx;
           sp.y += sp.vy;
-          if (sp.y < height * 0.06) {
-            sp.y = height * 0.68;
+          sp.vy += 0.04;
+          sp.alpha -= 0.025;
+          if (sp.alpha <= 0) {
+            soilSparkles.splice(i, 1);
+            continue;
           }
+          ctx.fillStyle = `rgba(210, 252, 220, ${sp.alpha})`;
+          ctx.beginPath();
+          ctx.arc(sp.x, sp.y, sp.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
 
-          const twinkle = 0.4 + 0.6 * Math.sin(elapsed * 3.2 + sp.phase);
-          const alpha = sp.alpha * ap * twinkle;
+        ctx.save();
+        const archCenterY = baseY - domeStraightH;
 
-          if (sp.isSquare) {
-            ctx.strokeStyle = sp.isGold
-              ? `rgba(255, 218, 130, ${alpha})`
-              : `rgba(252, 235, 255, ${alpha})`;
-            ctx.lineWidth = 0.75;
-            ctx.strokeRect(sp.x - sp.size, sp.y - sp.size, sp.size * 2, sp.size * 2);
-          } else {
-            ctx.fillStyle = sp.isGold
-              ? `rgba(255, 212, 115, ${alpha})`
-              : `rgba(255, 248, 255, ${alpha})`;
-            ctx.beginPath();
-            ctx.arc(sp.x, sp.y, sp.size, 0, Math.PI * 2);
-            ctx.fill();
-          }
-        });
+        ctx.beginPath();
+        ctx.moveTo(cx - domeRadius, baseY);
+        ctx.lineTo(cx - domeRadius, archCenterY);
+        ctx.arc(cx, archCenterY, domeRadius, Math.PI, 0, false);
+        ctx.lineTo(cx + domeRadius, baseY);
+        ctx.ellipse(cx, baseY, domeRadius, 10, 0, 0, Math.PI, false);
+        ctx.closePath();
+
+        const glassGrad = ctx.createLinearGradient(cx - domeRadius, cy, cx + domeRadius, cy);
+        glassGrad.addColorStop(0, 'rgba(255, 240, 255, 0.11)');
+        glassGrad.addColorStop(0.2, 'rgba(255, 240, 255, 0.03)');
+        glassGrad.addColorStop(0.8, 'rgba(255, 240, 255, 0.02)');
+        glassGrad.addColorStop(1, 'rgba(245, 210, 255, 0.13)');
+        ctx.fillStyle = glassGrad;
+        ctx.fill();
+
+        ctx.strokeStyle = 'rgba(255, 242, 255, 0.48)';
+        ctx.lineWidth = 1.6;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(cx, archCenterY, domeRadius * 0.88, Math.PI * 1.08, Math.PI * 1.38, false);
+        ctx.strokeStyle = 'rgba(255, 252, 255, 0.52)';
+        ctx.lineWidth = 2.4;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(cx - domeRadius * 0.88, archCenterY + 10);
+        ctx.lineTo(cx - domeRadius * 0.88, baseY - 18);
+        ctx.strokeStyle = 'rgba(255, 252, 255, 0.32)';
+        ctx.lineWidth = 2.0;
+        ctx.stroke();
+
+        const knobY = archCenterY - domeRadius - 10;
+        const knobGrad = ctx.createRadialGradient(cx - 3, knobY - 3, 1, cx, knobY, 11);
+        knobGrad.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
+        knobGrad.addColorStop(0.5, 'rgba(245, 210, 250, 0.55)');
+        knobGrad.addColorStop(1, 'rgba(215, 165, 235, 0.25)');
+        ctx.fillStyle = knobGrad;
+        ctx.beginPath();
+        ctx.arc(cx, knobY, 10, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(255, 245, 255, 0.65)';
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+
+        ctx.restore();
       }
 
       resize();
-      if (params.get('autostart') === '1') {
-        handleTrigger(width / 2, height / 2);
-      }
       requestAnimationFrame(render);
     })();
   </script>
