@@ -152,7 +152,9 @@
 
       let started = false;
       let startTime = 0;
+      let lastFrameTime = performance.now();
       let clickBursts = [];
+      let clickHearts = [];
       let ambientPollen = [];
 
       let mainStems = [];
@@ -161,6 +163,18 @@
       let flowers = [];
       let buds = [];
       let tendrils = [];
+
+      // Konsept renklerine uyumlu minik kalp paleti (rose, lilac, blush + hafif polen altını)
+      const HEART_COLORS = [
+        '238, 172, 224', // gül pembesi
+        '224, 122, 186', // koyu gül
+        '225, 182, 245', // açık lila
+        '198, 132, 228', // lila
+        '248, 202, 232', // pudra pembe
+        '235, 152, 198', // şeftali-pembe
+        '255, 236, 250', // sedefli beyaz-pembe
+        '255, 214, 148'  // sıcak polen altını
+      ];
 
       // ============================================================================
       // MOBİL (iOS SAFARI & ANDROID CHROME) İLK DOKUNUŞTA ANINDA ÇALIŞAN SES MOTORU
@@ -804,6 +818,48 @@
         ctx.restore();
       }
 
+      function drawMiniHeart(x, y, size, rot, rgb, alpha, isOutline) {
+        if (size <= 0.2 || alpha <= 0.01) return;
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(rot);
+
+        const s = size;
+
+        // Hafif parıltı halesi
+        if (!isOutline) {
+          const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, s * 2.1);
+          glow.addColorStop(0, `rgba(${rgb}, ${0.30 * alpha})`);
+          glow.addColorStop(1, `rgba(${rgb}, 0)`);
+          ctx.fillStyle = glow;
+          ctx.beginPath();
+          ctx.arc(0, 0, s * 2.1, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.beginPath();
+        ctx.moveTo(0, -s * 0.35);
+        ctx.bezierCurveTo(-s * 0.15, -s * 0.85, -s * 0.95, -s * 0.80, -s * 0.95, -s * 0.20);
+        ctx.bezierCurveTo(-s * 0.95,  s * 0.30, -s * 0.35,  s * 0.58,  0,        s * 0.85);
+        ctx.bezierCurveTo( s * 0.35,  s * 0.58,  s * 0.95,  s * 0.30,  s * 0.95, -s * 0.20);
+        ctx.bezierCurveTo( s * 0.95, -s * 0.80,  s * 0.15, -s * 0.85,  0,       -s * 0.35);
+        ctx.closePath();
+
+        if (isOutline) {
+          ctx.strokeStyle = `rgba(${rgb}, ${0.88 * alpha})`;
+          ctx.lineWidth = 1.05;
+          ctx.stroke();
+        } else {
+          ctx.fillStyle = `rgba(${rgb}, ${0.78 * alpha})`;
+          ctx.fill();
+          ctx.strokeStyle = `rgba(255, 246, 255, ${0.58 * alpha})`;
+          ctx.lineWidth = 0.75;
+          ctx.stroke();
+        }
+
+        ctx.restore();
+      }
+
       function buildBotanicalScene() {
         const centerX = width * 0.5;
         const scale = Math.min(width * 0.26, height * 0.145, 118);
@@ -1036,19 +1092,101 @@
       window.addEventListener('resize', resize);
 
       function createClickBurst(x, y) {
-        for (let i = 0; i < 68; i++) {
+        const nowMs = performance.now();
+
+        for (let i = 0; i < 48; i++) {
           const angle = Math.random() * Math.PI * 2;
-          const speed = 0.4 + Math.pow(Math.random(), 1.4) * 3.2;
+          const speed = 0.4 + Math.pow(Math.random(), 1.4) * 3.0;
           clickBursts.push({
             x, y,
             vx: Math.cos(angle) * speed,
             vy: Math.sin(angle) * speed,
-            size: 1.0 + Math.random() * 1.9,
-            alpha: 0.65 + Math.random() * 0.35,
-            born: performance.now(),
-            life: 850 + Math.random() * 850,
+            size: 0.9 + Math.random() * 1.8,
+            alpha: 0.6 + Math.random() * 0.35,
+            born: nowMs,
+            life: 800 + Math.random() * 800,
             isSquare: Math.random() < 0.25
           });
+        }
+
+        // Konsept renklerinde minik kalpler
+        const heartCount = 13;
+        for (let i = 0; i < heartCount; i++) {
+          const spreadAngle = (i / heartCount) * Math.PI * 2 + (Math.random() - 0.5) * 0.45;
+          const speed = 0.55 + Math.random() * 1.55;
+          const colorIdx = Math.random() < 0.09
+            ? HEART_COLORS.length - 1
+            : Math.floor(Math.random() * (HEART_COLORS.length - 1));
+
+          clickHearts.push({
+            x: x + (Math.random() - 0.5) * 8,
+            y: y + (Math.random() - 0.5) * 8,
+            vx: Math.cos(spreadAngle) * speed,
+            vy: Math.sin(spreadAngle) * speed - 0.65,
+            size: 3.3 + Math.random() * 4.4,
+            rot: (Math.random() - 0.5) * 0.55,
+            rotSpeed: (Math.random() - 0.5) * 0.022,
+            swayAmp: 0.14 + Math.random() * 0.26,
+            swayFreq: 0.004 + Math.random() * 0.004,
+            phase: Math.random() * Math.PI * 2,
+            color: HEART_COLORS[colorIdx],
+            isOutline: Math.random() < 0.28,
+            alpha: 0.8 + Math.random() * 0.2,
+            born: nowMs,
+            life: 1350 + Math.random() * 900
+          });
+        }
+      }
+
+      function renderClickEffects(now, dt) {
+        for (let i = clickBursts.length - 1; i >= 0; i--) {
+          const b = clickBursts[i];
+          const age = now - b.born;
+          if (age > b.life) {
+            clickBursts.splice(i, 1);
+            continue;
+          }
+          const prog = age / b.life;
+          b.x += b.vx * dt;
+          b.y += b.vy * dt;
+          b.vx *= Math.pow(0.975, dt);
+          b.vy *= Math.pow(0.975, dt);
+
+          const alpha = (1 - prog) * b.alpha;
+          if (b.isSquare) {
+            ctx.strokeStyle = `rgba(248, 225, 255, ${alpha})`;
+            ctx.lineWidth = 0.8;
+            ctx.strokeRect(b.x - b.size, b.y - b.size, b.size * 2, b.size * 2);
+          } else {
+            ctx.fillStyle = `rgba(255, 242, 255, ${alpha})`;
+            ctx.beginPath();
+            ctx.arc(b.x, b.y, b.size, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+
+        for (let i = clickHearts.length - 1; i >= 0; i--) {
+          const h = clickHearts[i];
+          const age = now - h.born;
+          if (age > h.life) {
+            clickHearts.splice(i, 1);
+            continue;
+          }
+          const prog = age / h.life;
+          h.vx *= Math.pow(0.965, dt);
+          h.vy = h.vy * Math.pow(0.97, dt) - 0.022 * dt;
+          h.x += (h.vx + Math.sin(age * h.swayFreq + h.phase) * h.swayAmp) * dt;
+          h.y += h.vy * dt;
+          h.rot += h.rotSpeed * dt;
+
+          const pop = easeOutCubic(clamp01(prog * 5.2));
+          const fade = prog < 0.18
+            ? prog / 0.18
+            : Math.pow(1 - (prog - 0.18) / 0.82, 1.35);
+          const curSize = h.size * pop * (1 - prog * 0.22);
+          const curAlpha = h.alpha * fade;
+
+          drawMiniHeart(h.x, h.y, curSize, h.rot, h.color, curAlpha, h.isOutline);
         }
       }
 
@@ -1122,37 +1260,17 @@
       function render(now) {
         requestAnimationFrame(render);
 
+        const dt = Math.min((now - lastFrameTime) / 16.667, 2.5);
+        lastFrameTime = now;
+
         ctx.globalCompositeOperation = 'source-over';
         ctx.fillStyle = '#000000';
         ctx.fillRect(0, 0, width, height);
 
-        for (let i = clickBursts.length - 1; i >= 0; i--) {
-          const b = clickBursts[i];
-          const age = now - b.born;
-          if (age > b.life) {
-            clickBursts.splice(i, 1);
-            continue;
-          }
-          const prog = age / b.life;
-          b.x += b.vx;
-          b.y += b.vy;
-          b.vx *= 0.975;
-          b.vy *= 0.975;
-
-          const alpha = (1 - prog) * b.alpha;
-          if (b.isSquare) {
-            ctx.strokeStyle = `rgba(248, 225, 255, ${alpha})`;
-            ctx.lineWidth = 0.8;
-            ctx.strokeRect(b.x - b.size, b.y - b.size, b.size * 2, b.size * 2);
-          } else {
-            ctx.fillStyle = `rgba(255, 242, 255, ${alpha})`;
-            ctx.beginPath();
-            ctx.arc(b.x, b.y, b.size, 0, Math.PI * 2);
-            ctx.fill();
-          }
+        if (!started) {
+          renderClickEffects(now, dt);
+          return;
         }
-
-        if (!started) return;
 
         const elapsed = (now - startTime) / 1000;
         const swayX = Math.sin(elapsed * 0.82) * Math.min(elapsed * 0.65, 2.8);
@@ -1308,6 +1426,8 @@
             ctx.fill();
           }
         });
+
+        renderClickEffects(now, dt);
       }
 
       resize();
